@@ -18,7 +18,7 @@ public class App {
 
 
         for (int i = 0; i < 1; i++) {
-            new ClipThread(new File("C:\\drop.wav")).start();
+            new ClipThread(new File("/Users/jtoledoc/IdeaProjects/jmsfs-cabinsounds/sample.wav")).start();
         }
 
 

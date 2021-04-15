@@ -30,7 +30,18 @@
             <artifactId>pi</artifactId>
             <version>0.8.0</version>
             <scope>system</scope>
-            <systemPath>${basedir}\src\lib\jsimconnect-0.8.0.jar</systemPath>
+            <systemPath>${basedir}/src/lib/jsimconnect-0.8.0.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.formdev</groupId>
+            <artifactId>flatlaf</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.formdev</groupId>
+            <artifactId>flatlaf-intellij-themes</artifactId>
+            <version>1.1.2</version>
         </dependency>
 
     </dependencies>
