@@ -33,14 +33,12 @@ public class ButtonEntry extends Entry {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
 
                 if (isDone) {
-                    System.out.println(clipPath);
                     clip = new ClipThread(clipPath);
                     clip.start();
 
                 }
 
                 isDone = clip.isDone();
-
 
             }
         });

@@ -28,7 +28,6 @@ public class ToggleButtonEntry extends Entry {
         button.setText(title + " ");
         button.setToolTipText(title);
         button.setFocusable(false);
-        //button.setBorder(null);
 
         button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -36,7 +35,6 @@ public class ToggleButtonEntry extends Entry {
                 if(!((AbstractButton) evt.getSource()).isSelected()){
                     clip.stop();
                 }else {
-                    //button.setText("->" + button.getText());
                     clip = new ClipThread(clipPath, button);
                     clip.start();
                 }
