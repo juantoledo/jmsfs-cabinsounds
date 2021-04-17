@@ -10,9 +10,10 @@ public class TitleEntry extends Entry {
     private JLabel label;
 
     public TitleEntry(String title, ImageIcon imageIcon, Container container) {
+
         super(title, imageIcon, container);
 
-        JPanel panelLabel = new MotionPanel((JFrame) container);
+        JPanel panelLabel = new MotionPanel(container);
         JLabel label = new javax.swing.JLabel();
 
         label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

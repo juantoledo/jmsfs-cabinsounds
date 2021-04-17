@@ -10,7 +10,7 @@ public class FileStructureTest {
     @Test
     public void convertTest() throws Exception {
 
-        FileStructureHelper.convertToUIModel("/Users/jtoledoc/cabinsounds/LATAM", new JFrame());
+        FileStructureHelper.convertToUIModel("C:\\cabinsounds\\LATAM", new JFrame());
 
     }
 }

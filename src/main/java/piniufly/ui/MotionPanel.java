@@ -10,8 +10,14 @@ public class MotionPanel extends JPanel {
     private Point initialClick;
     private JFrame parent;
 
-    public MotionPanel(final JFrame parent) {
-        this.parent = parent;
+    public MotionPanel(final Container parent) {
+
+        if(parent instanceof JFrame) {
+            this.parent = (JFrame) parent;
+        }else
+        {
+            this.parent = (JFrame) parent.getParent();
+        }
 
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {

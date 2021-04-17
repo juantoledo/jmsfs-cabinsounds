@@ -17,6 +17,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.apache.commons.io.FilenameUtils.removeExtension;
+import static piniufly.ui.model.IconHelper.determineIcon;
+
 public class FileStructureHelper {
 
     public static UIModel convertToUIModel(String baseDirectoryPath, Container container)
@@ -24,25 +27,36 @@ public class FileStructureHelper {
 
         List<Entry> entries = new ArrayList<Entry>();
 
-        Object[] paths = listFilesUsingFileWalk(baseDirectoryPath, 2).stream().sorted().toArray();
+        Object[] paths = listFilesAndDirsUsingFileWalk(baseDirectoryPath, 2).stream().sorted().toArray();
         for (int i = 1; i < paths.length; i++) {
             Path path = (Path) paths[i];
 
-            if(Files.isDirectory(path)){
+            if (Files.isDirectory(path)) {
                 entries.add(new TitleEntry(path.getFileName().toString().substring(2), null, container));
-            }else{
-                entries.add(new ToggleButtonEntry(path.getFileName().toString(), null, path.toAbsolutePath().toString(), container));
+            } else {
+                entries.add(new ToggleButtonEntry(removeExtension(path.getFileName().toString()), determineIcon(removeExtension(path.getFileName().toString())), path.toAbsolutePath().toString(), container));
             }
 
         }
-
         return new UIModel(entries);
     }
 
-    public static Set<Path> listFilesUsingFileWalk(String dir, int depth) throws IOException {
+
+    public static Set<Path> listFilesAndDirsUsingFileWalk(String dir, int depth) throws IOException {
         try (Stream<Path> stream = Files.walk(Paths.get(dir), depth)) {
             return stream
                     .collect(Collectors.toSet());
         }
     }
+
+    public static Set<String> listDirsUsingFileWalk(String dir, int depth) throws IOException {
+        try (Stream<Path> stream = Files.walk(Paths.get(dir), depth)) {
+            return stream
+                    .filter(file -> Files.isDirectory(file))
+                    .map(Path::getFileName)
+                    .map(Path::toString)
+                    .collect(Collectors.toSet());
+        }
+    }
+
 }

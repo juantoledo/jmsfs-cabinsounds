@@ -17,7 +17,7 @@ public class ToggleButtonEntry extends Entry {
     public ToggleButtonEntry(String title, ImageIcon imageIcon, String clipPath, Container container) {
         super(title, imageIcon, container);
 
-        JPanel panelButton = new MotionPanel((JFrame) container);
+        JPanel panelButton = new MotionPanel(container);
         panelButton.setLayout(new java.awt.GridLayout());
 
         button = new javax.swing.JToggleButton();
