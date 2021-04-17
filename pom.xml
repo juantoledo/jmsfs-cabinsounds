@@ -49,12 +49,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-model</artifactId>
-            <version>3.8.1</version>
-        </dependency>
-
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
@@ -71,17 +65,33 @@
                 <version>3.2.0</version>
                 <executions>
                     <execution>
-                        <id>copy-resources</id>
+                        <id>copy-jre-resources</id>
                         <!-- here the phase you need -->
                         <phase>package</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/win32/java</outputDirectory>
+                            <outputDirectory>${basedir}/target/dist/win32/java</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${java.home}</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-audiofiles-resources</id>
+                        <!-- here the phase you need -->
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/dist/audiofiles</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>audiofiles</directory>
                                 </resource>
                             </resources>
                         </configuration>
@@ -93,14 +103,31 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>piniufly.ui.AppWindow</mainClass>
-                        </manifest>
-                    </archive>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>assemble-all</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>piniufly.ui.AppWindow</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
             <plugin>
@@ -115,10 +142,13 @@
                             <goal>launch4j</goal>
                         </goals>
                         <configuration>
+                            <icon>src/main/resources/icons/airplane-black-36.ico</icon>
                             <headerType>gui</headerType>
-                            <jar>${project.build.directory}/${project.artifactId}-${project.version}.jar</jar>
-                            <outfile>${project.build.directory}/hasCode.exe</outfile>
-                            <downloadUrl>http://java.com/download</downloadUrl>
+                            <jar>
+                                ${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar
+                            </jar>
+                            <outfile>${project.build.directory}/dist/${project.artifactId}.exe</outfile>
+                            <downloadUrl>https://github.com/juantoledo/jmsfs-cabinsounds</downloadUrl>
                             <classPath>
                                 <mainClass>piniufly.ui.AppWindow</mainClass>
                                 <addDependencies>true</addDependencies>
@@ -130,22 +160,22 @@
                             </jre>
 
                             <versionInfo>
-                                <fileVersion>1.0.0.0</fileVersion>
-                                <txtFileVersion>${project.version}</txtFileVersion>
-                                <fileDescription>${project.name}</fileDescription>
-                                <copyright>2012 hasCode.com</copyright>
-                                <productVersion>1.0.0.0</productVersion>
-                                <txtProductVersion>1.0.0.0</txtProductVersion>
+                                <fileVersion>${project.version}.0</fileVersion>
+                                <txtFileVersion>>${project.version}.0</txtFileVersion>
+                                <fileDescription>A Java-based app to manage Microsoft™ Flight Simulator cabin sounds
+                                </fileDescription>
+                                <productVersion>${project.version}.0</productVersion>
+                                <txtProductVersion>${project.version}.0</txtProductVersion>
                                 <productName>${project.name}</productName>
-                                <companyName>hasCode.com</companyName>
-                                <internalName>hasCode</internalName>
-                                <originalFilename>hasCode.exe</originalFilename>
+                                <companyName>piniufly</companyName>
+                                <internalName>${project.artifactId}</internalName>
+                                <originalFilename>${project.artifactId}.exe</originalFilename>
+                                <copyright>${project.inceptionYear} juantoledo</copyright>
                             </versionInfo>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
     </build>
 

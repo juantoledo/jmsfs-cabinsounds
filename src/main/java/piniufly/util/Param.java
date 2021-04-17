@@ -1,31 +1,21 @@
 package piniufly.util;
 
-import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-
-import java.io.FileReader;
-import java.io.IOException;
-
 public class Param {
 
     public final static String AUDIO_FILES_DIR = "audiofiles";
 
-    public final static String APP_NAME = "JCabin Sounds";
+    public final static String APP_NAME = "jmsfs-cabinsounds";
 
-    public static String APP_VERSION;
+    public static String APP_VERSION = "0.1.0";
 
-    static {
-        try {
-            APP_VERSION = new MavenXpp3Reader().read(new FileReader("pom.xml")).getVersion();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        }
-    }
+    public static String APP_DESCRIPTION = "A Simple Java-based app to manage Microsoft™ Flight Simulator cabin sounds";
+
+    public static String APP_SITE = "https://github.com/juantoledo/jmsfs-cabinsounds";
 
     public static final int MAX_ENTRIES = 24;
 
-    public static final int HEIGHT_WHEN_MAX_ENTRIES = 600;
+    public static final int MAX_WINDOW_WIDTH_WHEN_MAX_ENTRIES = 700;
+
+    public static final int MAIN_WINDOW_HEIGHT_WHEN_MAX_ENTRIES = 700;
 
 }

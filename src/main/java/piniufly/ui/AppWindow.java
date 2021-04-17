@@ -11,6 +11,7 @@ import java.awt.*;
 import java.io.IOException;
 
 import static java.lang.ClassLoader.getSystemResource;
+import static javax.swing.JOptionPane.showMessageDialog;
 import static piniufly.util.Param.*;
 
 
@@ -49,14 +50,27 @@ public class AppWindow extends javax.swing.JFrame {
 
 
         try {
-
             JPanel panelLabel = new MotionPanel(this);
             JLabel exitLabel = new javax.swing.JLabel();
+            JLabel helpLabel = new javax.swing.JLabel();
             JLabel title = new javax.swing.JLabel();
             title.setText(APP_NAME + " v." + APP_VERSION);
 
-            exitLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+
+            helpLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             panelLabel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+            helpLabel.setForeground(Color.ORANGE);
+            helpLabel.setText(" ? ");
+            helpLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    new SimpleAboutDialog(null).show();
+                }
+            });
+            panelLabel.add(title);
+            panelLabel.add(helpLabel);
+
+
+            exitLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             exitLabel.setForeground(Color.RED);
             exitLabel.setText(" X ");
             exitLabel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -64,11 +78,9 @@ public class AppWindow extends javax.swing.JFrame {
                     System.exit(0);
                 }
             });
-
-            panelLabel.add(title);
             panelLabel.add(exitLabel);
-            getContentPane().add(panelLabel);
 
+            getContentPane().add(panelLabel);
 
             loadAirlinesDropdown();
 
@@ -82,12 +94,15 @@ public class AppWindow extends javax.swing.JFrame {
             setMaximumSize(getSize());
             getContentPane().add(myJScrollPane);
 
+
             pack();
-            setSize(getWidth(), model.getEntryList().size() > MAX_ENTRIES ? HEIGHT_WHEN_MAX_ENTRIES : getHeight());
+            setSize(getWidth(), model.getEntryList().size() > MAX_ENTRIES ? MAX_WINDOW_WIDTH_WHEN_MAX_ENTRIES : getHeight());
+            putJFrameOnTopRight();
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, ExceptionUtils.getStackTrace(ex), ex.getClass().getName(), JOptionPane.ERROR_MESSAGE);
+            showMessageDialog(null, ExceptionUtils.getStackTrace(ex), ex.getClass().getName(), JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
         }
 
 
@@ -135,11 +150,11 @@ public class AppWindow extends javax.swing.JFrame {
             audiosPanelBorder.add(audiosPanel);
 
             pack();
-            setSize(getWidth(), model.getEntryList().size() > MAX_ENTRIES ? HEIGHT_WHEN_MAX_ENTRIES : getHeight());
+            setSize(getWidth(), model.getEntryList().size() > MAX_ENTRIES ? MAIN_WINDOW_HEIGHT_WHEN_MAX_ENTRIES : getHeight());
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, ExceptionUtils.getStackTrace(ex), ex.getClass().getName(), JOptionPane.ERROR_MESSAGE);
+            showMessageDialog(null, ExceptionUtils.getStackTrace(ex), ex.getClass().getName(), JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -158,6 +173,15 @@ public class AppWindow extends javax.swing.JFrame {
         });
     }
 
+    private void putJFrameOnTopRight() {
+        /*PUT FRAME ON TOP RIGHT*/
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice defaultScreen = ge.getDefaultScreenDevice();
+        Rectangle rect = defaultScreen.getDefaultConfiguration().getBounds();
+        int x = (int) rect.getMaxX() - getWidth();
+        int y = 0;
+        setLocation(x, y + 30);
+    }
 
 }
 
