@@ -2,4 +2,4 @@
 
 A Simple Java-based app to manage Microsoft™ Flight Simulator cabin sounds
 
-![alt text](https://github.com//juantoledo/jmsfs-cabinsounds/blob/master/screenshot.png?raw=true)
+![Screenshot](https://github.com//juantoledo/jmsfs-cabinsounds/blob/main/screenshot.png?raw=true)
