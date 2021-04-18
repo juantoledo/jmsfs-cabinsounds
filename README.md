@@ -12,7 +12,7 @@ Just download latest version from  [Releases]( https://github.com/juantoledo/jms
 
 # If you need to add your own audio Files 
 
-Just replicate the following structure under the audiofiles directory 
+Just replicate the following structure under the **audiofiles** directory 
 
 
 * Airline Name 1
