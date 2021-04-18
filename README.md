@@ -16,16 +16,27 @@ Just replicate the following structure under the **audiofiles** directory
 
 
 * Airline Name 1
-  * 1.Soundfile1.wav
-  * 2.Soundfile2.wav
-  * 3.Soundfile3.wav
-  * n.Soundfilen.wav  
+  * 1.Sound Category 1
+   * 1.Soundfile1.wav
+   * 2.Soundfile2.wav
+   * n.Soundfilen.wav  
+  
+  * 2.Sound Category 2
+   * 1.Soundfile1.wav
+   * 2.Soundfile2.wav
+   * n.Soundfilen.wav 
    
+
 * Airline Name 2
-  * 1.Soundfile1.wav
-  * 2.Soundfile2.wav
-  * 3.Soundfile3.wav
-  * n.Soundfilen.wav  
+  * 1.Sound Category 1
+   * 1.Soundfile1.wav
+   * 2.Soundfile2.wav
+   * n.Soundfilen.wav  
+  
+  * 2.Sound Category 2
+   * 1.Soundfile1.wav
+   * 2.Soundfile2.wav
+   * n.Soundfilen.wav 
 
 
 # Future Ideas  / Future releases 
