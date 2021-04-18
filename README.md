@@ -17,33 +17,33 @@ Just replicate the following structure under the **audiofiles** directory
 
 * Airline Name 1
   * 1.Sound Category 1
-   * 1.Soundfile1.wav
-   * 2.Soundfile2.wav
-   * n.Soundfilen.wav  
+    * 1.Soundfile1.wav
+    * 2.Soundfile2.wav
+    * n.Soundfilen.wav  
   
   * 2.Sound Category 2
-   * 1.Soundfile1.wav
-   * 2.Soundfile2.wav
-   * n.Soundfilen.wav 
+    * 1.Soundfile1.wav
+    * 2.Soundfile2.wav
+    * n.Soundfilen.wav 
    
 
 * Airline Name 2
   * 1.Sound Category 1
-   * 1.Soundfile1.wav
-   * 2.Soundfile2.wav
-   * n.Soundfilen.wav  
+    * 1.Soundfile1.wav
+    * 2.Soundfile2.wav
+    * n.Soundfilen.wav  
   
   * 2.Sound Category 2
-   * 1.Soundfile1.wav
-   * 2.Soundfile2.wav
-   * n.Soundfilen.wav 
+    * 1.Soundfile1.wav
+    * 2.Soundfile2.wav
+    * n.Soundfilen.wav 
 
 
 # Future Ideas  / Future releases 
 
 * Volume control
 * Add button to integrate with https://www.liveatc.net/
-* Integrate with MSFS 2020 Events (Jsimconnect library already integrated)
+* Integrate with MSFS 2020 Events (Jsimconnect library already integrated as dependency)
 
 
 
