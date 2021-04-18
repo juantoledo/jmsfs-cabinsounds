@@ -1,7 +1,7 @@
 package piniufly.ui;
 
 
-import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkContrastIJTheme;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import piniufly.service.FileStructureHelper;
 import piniufly.ui.model.UIModel;
@@ -159,7 +159,7 @@ public class AppWindow extends javax.swing.JFrame {
     }
 
     public static void main(String args[]) {
-        FlatDarculaLaf.install();
+        FlatAtomOneDarkContrastIJTheme.install();
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
