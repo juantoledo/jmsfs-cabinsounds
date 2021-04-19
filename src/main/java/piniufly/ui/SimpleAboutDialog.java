@@ -33,7 +33,7 @@ public class SimpleAboutDialog extends JDialog {
         });
         Box b = Box.createVerticalBox();
         b.add(Box.createGlue());
-        b.add(new JLabel(APP_NAME));
+        b.add(new JLabel(APP_NAME +  " v." + APP_VERSION));
         b.add(new JLabel(APP_DESCRIPTION));
         b.add(linkLabel);
 

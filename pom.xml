@@ -6,7 +6,7 @@
 
     <groupId>piniufly</groupId>
     <artifactId>jmsfs-cabinsounds</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 
     <name>jmsfs-cabinsounds</name>
 
@@ -49,9 +49,16 @@
         </dependency>
 
         <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.6</version>
+        </dependency>
+
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
 
@@ -170,6 +177,46 @@
                                 <companyName>piniufly</companyName>
                                 <internalName>${project.artifactId}</internalName>
                                 <originalFilename>${project.artifactId}.exe</originalFilename>
+                                <copyright>${project.inceptionYear} juantoledo</copyright>
+                            </versionInfo>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>l4j-gui-upd</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <icon>src/main/resources/icons/airplane-black-36.ico</icon>
+                            <headerType>gui</headerType>
+                            <jar>
+                                ${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar
+                            </jar>
+                            <outfile>${project.build.directory}/dist/${project.artifactId}-upd.exe</outfile>
+                            <downloadUrl>https://github.com/juantoledo/jmsfs-cabinsounds</downloadUrl>
+                            <classPath>
+                                <mainClass>piniufly.ui.updatemanager.UpdaterApp</mainClass>
+                                <addDependencies>true</addDependencies>
+                                <preCp>anything</preCp>
+                            </classPath>
+
+                            <jre>
+                                <path>./win32/java</path>
+                            </jre>
+
+                            <versionInfo>
+                                <fileVersion>${project.version}.0</fileVersion>
+                                <txtFileVersion>>${project.version}.0</txtFileVersion>
+                                <fileDescription>A Java-based app to manage Microsoft™ Flight Simulator cabin sounds -
+                                    upd
+                                </fileDescription>
+                                <productVersion>${project.version}.0</productVersion>
+                                <txtProductVersion>${project.version}.0</txtProductVersion>
+                                <productName>${project.name}</productName>
+                                <companyName>piniufly</companyName>
+                                <internalName>${project.artifactId}-upd</internalName>
+                                <originalFilename>${project.artifactId}-upd.exe</originalFilename>
                                 <copyright>${project.inceptionYear} juantoledo</copyright>
                             </versionInfo>
                         </configuration>

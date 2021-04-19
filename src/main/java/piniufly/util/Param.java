@@ -6,11 +6,19 @@ public class Param {
 
     public final static String APP_NAME = "jmsfs-cabinsounds";
 
-    public static String APP_VERSION = "0.1.0";
+    public static String APP_VERSION = "0.2.0";
 
     public static String APP_DESCRIPTION = "A Simple Java-based app to manage Microsoft™ Flight Simulator cabin sounds";
 
     public static String APP_SITE = "https://github.com/juantoledo/jmsfs-cabinsounds";
+
+    public static String REPO_REF = "https://api.github.com/repos/juantoledo/jmsfs-cabinsounds/releases/latest";
+
+    public static String ASSET_TO_BE_UPDATED = "jmsfs-cabinsounds.exe";
+
+    public static String ASSET_URL = "https://github.com/juantoledo/jmsfs-cabinsounds/releases/download/";
+
+    public static String UPDATER_EXE = "jmsfs-cabinsounds-upd.exe";
 
     public static final int MAX_ENTRIES = 24;
 

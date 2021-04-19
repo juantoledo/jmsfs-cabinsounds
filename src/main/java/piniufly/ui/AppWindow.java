@@ -5,6 +5,7 @@ import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkCon
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import piniufly.service.FileStructureHelper;
 import piniufly.ui.model.UIModel;
+import piniufly.ui.updatemanager.UpdateManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,24 +18,26 @@ import static piniufly.util.Param.*;
 
 public class AppWindow extends javax.swing.JFrame {
 
-    JComboBox<String> airlines;
+    private JComboBox<String> airlines;
 
-    JPanel audiosPanelBorder = new JPanel();
+    private JPanel audiosPanelBorder = new JPanel();
 
-    JScrollPane myJScrollPane = new JScrollPane(audiosPanelBorder,
+    private JScrollPane myJScrollPane = new JScrollPane(audiosPanelBorder,
             JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-    public AppWindow(String[] args) throws IOException {
+    private UIModel model;
 
-        initComponents();
-        ImageIcon img = new ImageIcon(getSystemResource("icons/airplane.png"));
-        this.setIconImage(img.getImage());
+    public AppWindow(String[] args) throws Exception {
 
+        UpdateManager.checkForUpdates();
+        initUIComponents();
 
     }
 
-    private void initComponents() {
+    private void initUIComponents() {
+
+        setIconImage(new ImageIcon(getSystemResource("icons/airplane.png")).getImage());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
@@ -46,10 +49,12 @@ public class AppWindow extends javax.swing.JFrame {
         this.setUndecorated(true);
         setAlwaysOnTop(true);
         audiosPanelBorder.setLayout(new GridLayout());
+        audiosPanelBorder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
         audiosPanelBorder.setAutoscrolls(true);
 
 
         try {
+
             JPanel panelLabel = new MotionPanel(this);
             JLabel exitLabel = new javax.swing.JLabel();
             JLabel helpLabel = new javax.swing.JLabel();
@@ -87,7 +92,7 @@ public class AppWindow extends javax.swing.JFrame {
             JPanel audiosPanel = new JPanel();
             audiosPanel.setLayout(new javax.swing.BoxLayout(audiosPanel, javax.swing.BoxLayout.PAGE_AXIS));
             audiosPanel.setAutoscrolls(true);
-            UIModel model = FileStructureHelper.convertToUIModel(AUDIO_FILES_DIR + "/" + airlines.getItemAt(airlines.getSelectedIndex()), audiosPanel);
+            model = FileStructureHelper.convertToUIModel(AUDIO_FILES_DIR + "/" + airlines.getItemAt(airlines.getSelectedIndex()), audiosPanel);
 
 
             audiosPanelBorder.add(audiosPanel);
@@ -109,8 +114,10 @@ public class AppWindow extends javax.swing.JFrame {
     }
 
     private void loadAirlinesDropdown() throws IOException {
+     /*
         //Dropdown for Airline Selection
         JPanel panelLabel = new MotionPanel(this);
+
         JLabel label = new javax.swing.JLabel();
 
         label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -119,6 +126,8 @@ public class AppWindow extends javax.swing.JFrame {
         label.setText("Select Airline");
         panelLabel.add(label);
         getContentPane().add(panelLabel);
+
+    */
 
         JPanel panelDropdown = new MotionPanel(this);
         panelDropdown.setLayout(new java.awt.GridLayout());
@@ -131,12 +140,7 @@ public class AppWindow extends javax.swing.JFrame {
         airlines.setFont(new java.awt.Font("Tahoma", 0, 9));
         airlines.setBorder(null);
 
-        airlines.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refreshUI();
-            }
-        });
-
+        airlines.addActionListener(evt -> refreshUI());
         panelDropdown.add(airlines);
         getContentPane().add(panelDropdown);
     }
@@ -144,9 +148,10 @@ public class AppWindow extends javax.swing.JFrame {
     private void refreshUI() {
         try {
             audiosPanelBorder.removeAll();
+            model.getEntryList().clear();
             JPanel audiosPanel = new JPanel();
             audiosPanel.setLayout(new javax.swing.BoxLayout(audiosPanel, javax.swing.BoxLayout.PAGE_AXIS));
-            UIModel model = FileStructureHelper.convertToUIModel(AUDIO_FILES_DIR + "/" + airlines.getItemAt(airlines.getSelectedIndex()), audiosPanel);
+            model = FileStructureHelper.convertToUIModel(AUDIO_FILES_DIR + "/" + airlines.getItemAt(airlines.getSelectedIndex()), audiosPanel);
             audiosPanelBorder.add(audiosPanel);
 
             pack();
@@ -158,20 +163,19 @@ public class AppWindow extends javax.swing.JFrame {
         }
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         FlatAtomOneDarkContrastIJTheme.install();
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                ToolTipManager.sharedInstance().setInitialDelay(0);
-                try {
-                    new AppWindow(args).setVisible(true);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        java.awt.EventQueue.invokeLater(() -> {
+            ToolTipManager.sharedInstance().setInitialDelay(0);
+            try {
+                new AppWindow(args).setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }
+
 
     private void putJFrameOnTopRight() {
         /*PUT FRAME ON TOP RIGHT*/
