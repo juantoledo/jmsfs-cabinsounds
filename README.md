@@ -7,7 +7,7 @@ A Simple Java-based app to manage Microsoft™ Flight Simulator cabin sounds
 
 # Usage
 
-Just download latest version from  [Releases]( https://github.com/juantoledo/jmsfs-cabinsounds/releases) page, unzip it, execute jmsfs-cabinsounds.exe and you're done.
+Just download the latest bundle zip version from  [Releases]( https://github.com/juantoledo/jmsfs-cabinsounds/releases) page, unzip it, execute jmsfs-cabinsounds.exe and you're ready to go.
 
 
 # If you need to add your own audio Files 
