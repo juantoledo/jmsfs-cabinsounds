@@ -18,7 +18,7 @@ public class SimpleAboutDialog extends JDialog {
     public SimpleAboutDialog(JFrame parent) {
         super(parent, "About " + APP_NAME, true);
 
-        ImageIcon img = new ImageIcon(getSystemResource("icons/airplane.png"));
+        ImageIcon img = new ImageIcon(getSystemResource("icons/airplane"));
         this.setIconImage(img.getImage());
 
         JLabel linkLabel = new JLabel("<html><a href='" + APP_SITE + "'>" + APP_SITE + "</a></html>");

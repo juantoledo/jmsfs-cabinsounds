@@ -6,7 +6,7 @@ public class Param {
 
     public final static String APP_NAME = "jmsfs-cabinsounds";
 
-    public static String APP_VERSION = "0.2.0";
+    public static String APP_VERSION = "0.3.0";
 
     public static String APP_DESCRIPTION = "A Simple Java-based app to manage Microsoft™ Flight Simulator cabin sounds";
 
@@ -25,5 +25,7 @@ public class Param {
     public static final int MAX_WINDOW_WIDTH_WHEN_MAX_ENTRIES = 700;
 
     public static final int MAIN_WINDOW_HEIGHT_WHEN_MAX_ENTRIES = 700;
+
+    public static final String PLAY_SUFFIX = "_play";
 
 }

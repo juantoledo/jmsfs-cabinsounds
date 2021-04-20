@@ -1,10 +1,7 @@
 package piniufly.service;
 
 
-import piniufly.ui.model.Entry;
-import piniufly.ui.model.TitleEntry;
-import piniufly.ui.model.ToggleButtonEntry;
-import piniufly.ui.model.UIModel;
+import piniufly.ui.model.*;
 
 import java.awt.*;
 import java.io.IOException;
@@ -34,7 +31,8 @@ public class FileStructureHelper {
             if (Files.isDirectory(path)) {
                 entries.add(new TitleEntry(path.getFileName().toString().substring(2), null, container));
             } else {
-                entries.add(new ToggleButtonEntry(removeExtension(path.getFileName().toString()).substring(2), determineIcon(removeExtension(path.getFileName().toString())), path.toAbsolutePath().toString(), container));
+                PlayableIcon playableIcon = determineIcon(removeExtension(path.getFileName().toString()));
+                entries.add(new ToggleButtonEntry(removeExtension(path.getFileName().toString()).substring(2), playableIcon.getStoppedIcon(), playableIcon.getPlayingIcon(), path.toAbsolutePath().toString(), container));
             }
 
         }

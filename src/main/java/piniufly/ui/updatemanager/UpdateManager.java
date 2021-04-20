@@ -22,7 +22,7 @@ public class UpdateManager {
             if (JOptionPane.showConfirmDialog(null, "Do you want to update to the latest version (" + latest + ") ?", "Update available",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
-                    new ImageIcon(getSystemResource("icons/airplane.png"))) == 0) {
+                    new ImageIcon(getSystemResource("icons/airplane"))) == 0) {
 
                 /* Launch APP */
                 Runtime.getRuntime().exec(UPDATER_EXE, null);

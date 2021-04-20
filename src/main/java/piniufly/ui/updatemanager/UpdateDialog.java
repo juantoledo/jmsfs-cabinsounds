@@ -31,7 +31,7 @@ public class UpdateDialog {
 
         JFrame theFrame = new JFrame(APP_NAME + " updater");
         theFrame.setAlwaysOnTop(true);
-        theFrame.setIconImage(new ImageIcon(getSystemResource("icons/airplane.png")).getImage());
+        theFrame.setIconImage(new ImageIcon(getSystemResource("icons/airplane")).getImage());
         theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Container contentPane = theFrame.getContentPane();
