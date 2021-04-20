@@ -4,14 +4,23 @@ package piniufly.ui;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatAtomOneDarkContrastIJTheme;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import piniufly.service.FileStructureHelper;
+import piniufly.ui.model.ButtonEntry;
+import piniufly.ui.model.Entry;
+import piniufly.ui.model.ToggleButtonEntry;
 import piniufly.ui.model.UIModel;
 import piniufly.ui.updatemanager.UpdateManager;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.Objects;
 
 import static java.lang.ClassLoader.getSystemResource;
+import static java.util.Objects.isNull;
+import static javax.sound.sampled.FloatControl.Type.*;
 import static javax.swing.JOptionPane.showMessageDialog;
 import static piniufly.util.Param.*;
 
@@ -27,6 +36,7 @@ public class AppWindow extends javax.swing.JFrame {
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
     private UIModel model;
+
 
     public AppWindow(String[] args) throws Exception {
 
@@ -87,7 +97,10 @@ public class AppWindow extends javax.swing.JFrame {
 
             getContentPane().add(panelLabel);
 
+            loadVolumeControl();
+
             loadAirlinesDropdown();
+
 
             JPanel audiosPanel = new JPanel();
             audiosPanel.setLayout(new javax.swing.BoxLayout(audiosPanel, javax.swing.BoxLayout.PAGE_AXIS));
@@ -111,6 +124,59 @@ public class AppWindow extends javax.swing.JFrame {
         }
 
 
+    }
+
+    private void loadVolumeControl() {
+        JPanel panelLabel = new MotionPanel(this);
+
+        JSlider volumeSlider = new javax.swing.JSlider();
+
+        volumeSlider.setMinimum(6);
+
+        volumeSlider.setMaximum(-80);
+
+        panelLabel.setLayout(new java.awt.FlowLayout(FlowLayout.CENTER));
+        panelLabel.add(volumeSlider);
+        getContentPane().add(panelLabel);
+
+        volumeSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+
+                JSlider source = (JSlider) evt.getSource();
+
+                for (Entry entry : model.getEntryList()) {
+
+                    if ((entry instanceof ToggleButtonEntry || entry instanceof ButtonEntry) && (!isNull(entry.getClipThread()) && !isNull(entry.getClipThread().getClip()))) {
+
+                        System.out.println("MIN " + ((FloatControl) entry.getClipThread().getClip().getControl(MASTER_GAIN)).getMinimum());
+                        //volumeSlider.setMinimum(Math.round(((FloatControl) entry.getClipThread().getClip().getControl(MASTER_GAIN)).getMinimum()));
+
+                        //volumeSlider.setMaximum(Math.round(((FloatControl) entry.getClipThread().getClip().getControl(MASTER_GAIN)).getMaximum()));
+                        System.out.println("MAX" + ((FloatControl) entry.getClipThread().getClip().getControl(MASTER_GAIN)).getMaximum());
+
+                        //Math.min(((FloatControl) entry.getClipThread().getClip().getControl(MASTER_GAIN)).getMaximum(), Math.max(((FloatControl) entry.getClipThread().getClip().getControl(MASTER_GAIN)).getMinimum(), source.getValue()))
+
+                        //System.out.println(limit(((FloatControl) entry.getClipThread().getClip().getControl(FloatControl.Type.MASTER_GAIN)), source.getValue()));
+                        ((FloatControl) entry.getClipThread().getClip().getControl(FloatControl.Type.MASTER_GAIN)).setValue(limit(((FloatControl) entry.getClipThread().getClip().getControl(FloatControl.Type.MASTER_GAIN)), source.getValue()));
+
+                        //gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
+                    }
+
+                }
+
+                /*
+                FloatControl gainControl =
+                        (FloatControl) clip.getControl(FloatControl.Type.VOLUME);
+                gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
+                System.out.println(source.getValue());
+                */
+
+            }
+        });
+    }
+
+    private float limit(FloatControl control, float level) {
+        return Math.min(control.getMaximum(), Math.max(control.getMinimum(), level));
     }
 
     private void loadAirlinesDropdown() throws IOException {

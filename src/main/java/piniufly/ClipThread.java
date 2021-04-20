@@ -12,11 +12,12 @@ import java.util.Arrays;
 public class ClipThread extends Thread {
 
   AudioListener listener = new AudioListener();
-  ;
 
   private File file;
 
   JToggleButton button;
+
+  private Clip clip;
 
   public ClipThread(File file) {
     this.file = file;
@@ -39,7 +40,7 @@ public class ClipThread extends Thread {
     try {
       audioInputStream = AudioSystem.getAudioInputStream(file);
 
-      Clip clip = AudioSystem.getClip();
+      clip = AudioSystem.getClip();
       clip.addLineListener(listener);
       clip.open(audioInputStream);
 
@@ -96,5 +97,9 @@ public class ClipThread extends Thread {
 
   public boolean isDone() {
     return listener.isDone();
+  }
+
+  public Clip getClip() {
+    return clip;
   }
 }

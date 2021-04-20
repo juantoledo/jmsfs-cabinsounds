@@ -10,8 +10,6 @@ public class ToggleButtonEntry extends Entry {
 
     private JToggleButton button;
 
-    ClipThread clip;
-
     boolean isDone = true;
 
     public ToggleButtonEntry(String title, ImageIcon imageIcon, String clipPath, Container container) {
@@ -33,10 +31,10 @@ public class ToggleButtonEntry extends Entry {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
 
                 if(!((AbstractButton) evt.getSource()).isSelected()){
-                    clip.stop();
+                    clipThread.stop();
                 }else {
-                    clip = new ClipThread(clipPath, button);
-                    clip.start();
+                    clipThread = new ClipThread(clipPath, button);
+                    clipThread.start();
                 }
             }
         });

@@ -10,8 +10,6 @@ public class ButtonEntry extends Entry {
 
     private JButton button;
 
-    ClipThread clip;
-
     boolean isDone = true;
 
     public ButtonEntry(String title, ImageIcon imageIcon, String clipPath, Container container) {
@@ -33,12 +31,12 @@ public class ButtonEntry extends Entry {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
 
                 if (isDone) {
-                    clip = new ClipThread(clipPath);
-                    clip.start();
+                    clipThread = new ClipThread(clipPath);
+                    clipThread.start();
 
                 }
 
-                isDone = clip.isDone();
+                isDone = clipThread.isDone();
 
             }
         });
