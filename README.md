@@ -41,7 +41,6 @@ Just replicate the following structure under the **audiofiles** directory
 
 # Future Ideas  / Future releases 
 
-* Volume control
 * Add button to integrate with https://www.liveatc.net/
 * Integrate with MSFS 2020 Events (Jsimconnect library already integrated as dependency)
 
