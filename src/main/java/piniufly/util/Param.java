@@ -6,7 +6,7 @@ public class Param {
 
     public final static String APP_NAME = "jmsfs-cabinsounds";
 
-    public static String APP_VERSION = "0.3.0";
+    public static String APP_VERSION = "0.3.1";
 
     public static String APP_DESCRIPTION = "A Simple Java-based app to manage Microsoft™ Flight Simulator cabin sounds";
 

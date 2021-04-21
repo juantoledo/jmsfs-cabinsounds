@@ -1,16 +1,22 @@
 package piniufly.ui.model;
 
 import java.util.List;
+import java.util.Map;
 
 public class UIModel {
 
-    private List<Entry> entryList;
+    private Map<String, List<Entry>> entryList;
 
-    public UIModel(List<Entry> entryList){
+    public UIModel(Map<String, List<Entry>> entryList) {
         this.entryList = entryList;
     }
 
-    public List<Entry> getEntryList() {
-    return entryList;
+
+    public void setEntryList(Map<String, List<Entry>> entryList) {
+        this.entryList = entryList;
+    }
+
+    public Map<String, List<Entry>> getEntryList() {
+        return entryList;
     }
 }

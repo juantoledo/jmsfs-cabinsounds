@@ -2,12 +2,9 @@ package piniufly.ui.model;
 
 import piniufly.ClipThread;
 import piniufly.ui.MotionPanel;
-import piniufly.util.Param;
 
 import javax.swing.*;
 import java.awt.*;
-
-import static piniufly.util.Param.PLAY_SUFFIX;
 
 public class ToggleButtonEntry extends Entry {
 
@@ -15,7 +12,7 @@ public class ToggleButtonEntry extends Entry {
 
     boolean isDone = true;
 
-    public ToggleButtonEntry(String title, ImageIcon imageIcon, ImageIcon playing,  String clipPath, Container container) {
+    public ToggleButtonEntry(String title, ImageIcon imageIcon, ImageIcon playing, String clipPath, Container container, String where) {
         super(title, imageIcon, container);
 
         JPanel panelButton = new MotionPanel(container);
@@ -23,22 +20,21 @@ public class ToggleButtonEntry extends Entry {
 
         button = new PlayableToggleButton(imageIcon, playing);
         button.setLayout(new java.awt.GridLayout());
-        button.setForeground(Color.WHITE);
         button.setFont(new java.awt.Font("Tahoma", 0, 9));
         button.setIcon(imageIcon);
-        button.setText(title + " ");
+        button.setText(title);
         button.setToolTipText(title);
         button.setFocusable(false);
 
         button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
 
-                if(!((AbstractButton) evt.getSource()).isSelected()){
+                if (!((AbstractButton) evt.getSource()).isSelected()) {
                     clipThread.stop();
                     button.setStopped();
 
-                }else {
-                    clipThread = new ClipThread(clipPath, button);
+                } else {
+                    clipThread = new ClipThread(clipPath, button, where);
                     clipThread.start();
 
                 }

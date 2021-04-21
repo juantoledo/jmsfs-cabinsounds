@@ -7,14 +7,19 @@ import piniufly.service.FileStructureHelper;
 import piniufly.ui.model.UIModel;
 import piniufly.ui.updatemanager.UpdateManager;
 
-import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.IOException;
+import java.util.Set;
 
+import static java.awt.event.ItemEvent.DESELECTED;
+import static java.awt.event.ItemEvent.SELECTED;
 import static java.lang.ClassLoader.getSystemResource;
 import static javax.swing.JOptionPane.showMessageDialog;
-import static piniufly.service.AudioHelper.getActiveClips;
+import static piniufly.service.AudioHelper.*;
+import static piniufly.service.FileStructureHelper.listDirsUsingFileWalk;
 import static piniufly.util.Param.*;
 
 
@@ -51,7 +56,6 @@ public class AppWindow extends javax.swing.JFrame {
         this.setUndecorated(true);
         setAlwaysOnTop(true);
         audiosPanelBorder.setLayout(new GridLayout());
-        audiosPanelBorder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
         audiosPanelBorder.setAutoscrolls(true);
 
 
@@ -97,7 +101,7 @@ public class AppWindow extends javax.swing.JFrame {
             JPanel audiosPanel = new JPanel();
             audiosPanel.setLayout(new javax.swing.BoxLayout(audiosPanel, javax.swing.BoxLayout.PAGE_AXIS));
             audiosPanel.setAutoscrolls(true);
-            model = FileStructureHelper.convertToUIModel(AUDIO_FILES_DIR + "/" + airlines.getItemAt(airlines.getSelectedIndex()), audiosPanel);
+            model = FileStructureHelper.convertToUIModel(AUDIO_FILES_DIR + "/" + airlines.getItemAt(airlines.getSelectedIndex()), audiosPanel, airlines.getItemAt(airlines.getSelectedIndex()));
 
 
             audiosPanelBorder.add(audiosPanel);
@@ -106,7 +110,7 @@ public class AppWindow extends javax.swing.JFrame {
 
 
             pack();
-            setSize(getWidth(), model.getEntryList().size() > MAX_ENTRIES ? MAX_WINDOW_WIDTH_WHEN_MAX_ENTRIES : getHeight());
+            setSize(getWidth(), model.getEntryList().get(airlines.getItemAt(airlines.getSelectedIndex())).size() > MAX_ENTRIES ? MAX_WINDOW_WIDTH_WHEN_MAX_ENTRIES : getHeight());
             putJFrameOnTopRight();
 
         } catch (Exception ex) {
@@ -125,9 +129,9 @@ public class AppWindow extends javax.swing.JFrame {
 
         JSlider volumeSlider = new javax.swing.JSlider();
 
-        volumeSlider.setMinimum(-80);
+        volumeSlider.setMinimum(MIN_GAIN);
 
-        volumeSlider.setMaximum(6);
+        volumeSlider.setMaximum(MAX_GAIN);
 
         panelLabel.setLayout(new java.awt.FlowLayout(FlowLayout.CENTER));
         panelLabel.add(volumeSlider);
@@ -135,47 +139,45 @@ public class AppWindow extends javax.swing.JFrame {
 
         volumeSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-
-                getActiveClips().forEach((clip) -> ((FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN)).setValue(limit(((FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN)), ((JSlider) evt.getSource()).getValue())));
+                CURRENT_GAIN_VALUE = ((JSlider) evt.getSource()).getValue();
+                getActiveClips(airlines.getItemAt(airlines.getSelectedIndex())).forEach((clip) -> setGain(clip));
 
             }
         });
     }
 
-    private float limit(FloatControl control, float level) {
-        return Math.min(control.getMaximum(), Math.max(control.getMinimum(), level));
-    }
 
     private void loadAirlinesDropdown() throws IOException {
-     /*
-        //Dropdown for Airline Selection
-        JPanel panelLabel = new MotionPanel(this);
 
-        JLabel label = new javax.swing.JLabel();
-
-        label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        panelLabel.setLayout(new java.awt.FlowLayout(FlowLayout.CENTER));
-        label.setForeground(Color.ORANGE);
-        label.setText("Select Airline");
-        panelLabel.add(label);
-        getContentPane().add(panelLabel);
-
-    */
-
-        JPanel panelDropdown = new MotionPanel(this);
+        JPanel panelDropdown = new JPanel();
         panelDropdown.setLayout(new java.awt.GridLayout());
 
-
-        airlines = new javax.swing.JComboBox(FileStructureHelper.listDirsUsingFileWalk(AUDIO_FILES_DIR, 1).stream().filter(path -> !path.equals(AUDIO_FILES_DIR)).sorted().toArray());
-
-        airlines.setLayout(new java.awt.GridLayout());
+        airlines = new javax.swing.JComboBox(listDirsUsingFileWalk(AUDIO_FILES_DIR, 1).stream().filter(path -> !path.equals(AUDIO_FILES_DIR)).sorted().toArray());
 
         airlines.setFont(new java.awt.Font("Tahoma", 0, 9));
         airlines.setBorder(null);
 
-        airlines.addActionListener(evt -> refreshUI());
+        airlines.addItemListener(new ItemListener() {
+
+            @Override
+            public void itemStateChanged(ItemEvent event) {
+
+                if (event.getStateChange() == DESELECTED) {
+                    stopAll((String) event.getItem());
+                } else if (event.getStateChange() == SELECTED) {
+                    System.out.println("Current  New item: " + event.getItem());
+                }
+                refreshUI();
+            }
+        });
+
         panelDropdown.add(airlines);
+
         getContentPane().add(panelDropdown);
+    }
+
+    private String[] getArray(Set<String> content) {
+        return (String[]) content.toArray();
     }
 
     private void refreshUI() {
@@ -184,11 +186,11 @@ public class AppWindow extends javax.swing.JFrame {
             model.getEntryList().clear();
             JPanel audiosPanel = new JPanel();
             audiosPanel.setLayout(new javax.swing.BoxLayout(audiosPanel, javax.swing.BoxLayout.PAGE_AXIS));
-            model = FileStructureHelper.convertToUIModel(AUDIO_FILES_DIR + "/" + airlines.getItemAt(airlines.getSelectedIndex()), audiosPanel);
+            model = FileStructureHelper.convertToUIModel(AUDIO_FILES_DIR + "/" + airlines.getItemAt(airlines.getSelectedIndex()), audiosPanel, airlines.getItemAt(airlines.getSelectedIndex()));
             audiosPanelBorder.add(audiosPanel);
 
             pack();
-            setSize(getWidth(), model.getEntryList().size() > MAX_ENTRIES ? MAIN_WINDOW_HEIGHT_WHEN_MAX_ENTRIES : getHeight());
+            setSize(getWidth(), model.getEntryList().get(airlines.getItemAt(airlines.getSelectedIndex())).size() > MAX_ENTRIES ? MAIN_WINDOW_HEIGHT_WHEN_MAX_ENTRIES : getHeight());
 
         } catch (Exception ex) {
             ex.printStackTrace();

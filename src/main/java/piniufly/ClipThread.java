@@ -1,7 +1,6 @@
 package piniufly;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import piniufly.service.AudioHelper;
 import piniufly.ui.model.PlayableToggleButton;
 
 import javax.sound.sampled.*;
@@ -9,8 +8,9 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 
-import static piniufly.service.AudioHelper.addActiveClip;
-import static piniufly.service.AudioHelper.removeActiveClip;
+import static javax.sound.sampled.AudioSystem.getAudioInputStream;
+import static javax.sound.sampled.AudioSystem.write;
+import static piniufly.service.AudioHelper.*;
 
 public class ClipThread extends Thread {
 
@@ -22,17 +22,22 @@ public class ClipThread extends Thread {
 
     private Clip clip;
 
-    public ClipThread(File file) {
+    String where;
+
+    public ClipThread(File file, String where) {
         this.file = file;
+        this.where = where;
     }
 
-    public ClipThread(String filePath) {
+    public ClipThread(String filePath, String where) {
         this.file = new File(filePath);
+        this.where = where;
     }
 
-    public ClipThread(String filePath, PlayableToggleButton button) {
+    public ClipThread(String filePath, PlayableToggleButton button, String where) {
         this.file = new File(filePath);
         this.button = button;
+        this.where = where;
     }
 
     @Override
@@ -41,16 +46,17 @@ public class ClipThread extends Thread {
         AudioInputStream audioInputStream = null;
 
         try {
-            audioInputStream = AudioSystem.getAudioInputStream(file);
+            audioInputStream = getAudioInputStream(file);
 
             clip = AudioSystem.getClip();
             clip.addLineListener(listener);
             clip.open(audioInputStream);
 
             try {
+                setGain(clip);
                 clip.start();
                 button.setPlaying();
-                addActiveClip(clip);
+                addActiveClip(where, clip);
                 listener.waitUntilDone();
             } finally {
                 clip.close();
@@ -58,7 +64,7 @@ public class ClipThread extends Thread {
                     button.setSelected(false);
                     button.setStopped();
                 }
-                removeActiveClip(clip);
+                removeActiveClip(where, clip);
                 this.stop();
             }
         } catch (Exception ex) {

@@ -12,7 +12,7 @@ public class ButtonEntry extends Entry {
 
     boolean isDone = true;
 
-    public ButtonEntry(String title, ImageIcon imageIcon, String clipPath, Container container) {
+    public ButtonEntry(String title, ImageIcon imageIcon, String clipPath, Container container, String where) {
         super(title, imageIcon, container);
 
         JPanel panelButton = new MotionPanel(container);
@@ -20,10 +20,9 @@ public class ButtonEntry extends Entry {
 
         button = new javax.swing.JButton();
         button.setLayout(new java.awt.GridLayout());
-
         button.setFont(new java.awt.Font("Tahoma", 0, 9));
         button.setIcon(imageIcon);
-        button.setText(title + " ");
+        button.setText(title);
         button.setToolTipText(title);
         button.setBorder(null);
 
@@ -31,7 +30,7 @@ public class ButtonEntry extends Entry {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
 
                 if (isDone) {
-                    clipThread = new ClipThread(clipPath);
+                    clipThread = new ClipThread(clipPath, where);
                     clipThread.start();
 
                 }
