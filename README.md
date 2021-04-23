@@ -42,6 +42,7 @@ Just replicate the following structure under the **audiofiles** directory
 # Future Ideas  / Future releases 
 
 * Add button to integrate with https://www.liveatc.net/
+* Mouse right click start audio as background. Requires mouse left click to mute everything else
 * Integrate with MSFS 2020 Events (Jsimconnect library already integrated as dependency)
 
 

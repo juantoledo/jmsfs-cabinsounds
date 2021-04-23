@@ -5,6 +5,8 @@ import piniufly.ui.MotionPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ToggleButtonEntry extends Entry {
 
@@ -26,20 +28,50 @@ public class ToggleButtonEntry extends Entry {
         button.setToolTipText(title);
         button.setFocusable(false);
 
-        button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+        button.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseReleased(MouseEvent evt) {
+
 
                 if (!((AbstractButton) evt.getSource()).isSelected()) {
+
+//                    if (SwingUtilities.isLeftMouseButton(evt)) {
+//                        AudioHelper.stopAll(where);
+//                    }
+
                     clipThread.stop();
                     button.setStopped();
 
+
                 } else {
+
+
                     clipThread = new ClipThread(clipPath, button, where);
                     clipThread.start();
 
+
                 }
+
             }
+
         });
+
+//        button.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//
+//                if (!((AbstractButton) evt.getSource()).isSelected()) {
+//                    clipThread.stop();
+//                    button.setStopped();
+//                } else {
+//                    AudioHelper.stopAll(where);
+//                    clipThread = new ClipThread(clipPath, button, where);
+//                    clipThread.start();
+//
+//                }
+//            }
+//        });
 
         panelButton.add(button);
         container.add(panelButton);
